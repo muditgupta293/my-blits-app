@@ -6,7 +6,7 @@ export default Blits.Component("Navbar", {
     NavbarItem,
   },
   template: `
-    <Element w="1920" h="100" color="#44037a">
+    <Element w="1920" h="100" color="#333">
       <NavbarItem
         :for="(item, index) in $navbarItems"
         key="$item"
@@ -20,7 +20,7 @@ export default Blits.Component("Navbar", {
   state() {
     return {
       navbarItems: ["Home", "Movies", "Series"],
-      itemFocused: 0
+      itemFocused: 0,
     }
   },
   watch: {

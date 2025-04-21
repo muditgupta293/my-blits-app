@@ -11,7 +11,7 @@ export default Blits.Component("NavbarItem", {
   `,
   state() {
     return {
-      backgroundColor: "#44037a",
+      backgroundColor: "#333",
       fontColor: "#e8d7f9",
     }
   },
@@ -28,7 +28,7 @@ export default Blits.Component("NavbarItem", {
     },
     unfocus() {
       if (!this.$router.navigating) {
-        this.backgroundColor = "#44037a"
+        this.backgroundColor = "#333"
         this.fontColor = "#e8d7f9"
       }
     },
