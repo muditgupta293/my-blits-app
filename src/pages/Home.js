@@ -15,33 +15,23 @@ export default Blits.Component("Home", {
   template: `
     <Element w="1920" h="1080" color="#1e293b">
       <Navbar x="0" mount="{x: 0.5}" y="0" ref="row1" />
-      <!-- <Element :transition.y="{value: $y, duration: 300}"> -->
-      <CardsRow
-        :for="(item, index) in $data"
-        rail="$item.title"
-        railCards="$item.items"
-        index="$index"
-        key="$item.title"
-        :y="$index * 600 + $y"
-        :ref="'row' + ($index + 2)"
-      />
-      <!-- <CardsRow -->
-      <!-- :for="(item, index) in $data" -->
-      <!-- rail="$item.title" -->
-      <!-- railCards="$item.items" -->
-      <!-- index="$index" -->
-      <!-- key="$item.title" -->
-      <!-- y="$index * 600 + 100" -->
-      <!-- :ref="'row' + ($index + 2)" -->
-      <!-- /> -->
-      <!-- </Element> -->
+      <Element x="0" y="100" w="1920" h="600" color="#1e293b">
+        <CardsRow
+          :for="(item, index) in $data"
+          rail="$item.title"
+          railCards="$item.items"
+          index="$index"
+          key="$item.title"
+          :y.transition="{value: (($index * 575) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+          :ref="'row' + ($index + 2)"
+        />
+      </Element>
     </Element>
   `,
   props: ["landingPage"],
   state() {
     return {
       focusElement: 1,
-      y: 100,
       data: [
         {
           title: "Popular Movies",
@@ -59,8 +49,7 @@ export default Blits.Component("Home", {
             { name: "Pulp Fiction", rating: 8.9 },
             { name: "The Good, the Bad and the Ugly", rating: 8.9 },
             { name: "Fight Club", rating: 8.8 },
-          ],
-          y: 0,
+          ]
         },
         {
           title: "Top Rated Movies",
@@ -78,8 +67,7 @@ export default Blits.Component("Home", {
             { name: "Pulp Fiction", rating: 8.9 },
             { name: "The Good, the Bad and the Ugly", rating: 8.9 },
             { name: "Fight Club", rating: 8.8 },
-          ],
-          y: 200,
+          ]
         },
         {
           title: "Upcoming Movies",
@@ -97,28 +85,41 @@ export default Blits.Component("Home", {
             { name: "Pulp Fiction", rating: 8.9 },
             { name: "The Good, the Bad and the Ugly", rating: 8.9 },
             { name: "Fight Club", rating: 8.8 },
-          ],
-          y: 400,
+          ]
         },
+        {
+          title: "Popular Series",
+          items: [
+            { name: "The Shawshank Redemption", rating: 9.2 },
+            { name: "The Godfather", rating: 9.2 },
+            { name: "The Dark Knight", rating: 9.0 },
+            { name: "The Godfather: Part II", rating: 9.0 },
+            { name: "12 Angry Men", rating: 8.9 },
+            { name: "Schindler's List", rating: 8.9 },
+            {
+              name: "The Lord of the Rings",
+              rating: 8.9,
+            },
+            { name: "Pulp Fiction", rating: 8.9 },
+            { name: "The Good, the Bad and the Ugly", rating: 8.9 },
+            { name: "Fight Club", rating: 8.8 },
+          ]
+        }
       ],
     };
+  },
+  computed: {
+    offsetY() {
+      if (this.focusElement === 1 || this.focusElement === 2) return 0;
+      else  {
+       return (((this.focusElement - 1) * 470) - 500);
+      }
+    }
   },
   watch: {
     focusElement() {
       const row = this.$select(`row${this.focusElement}`);
       if (row && row.$focus) row.$focus();
-      // Scroll behavior
-    // const rowHeight = 600; // or get dynamically from rowRef.h
-    // const centerY = 1080 / 2; // screen center
-    // const offset = 100; // y offset from top
-
-    // // Get the focused row's y
-    // const targetY = this.focusElement * rowHeight + offset;
-
-    // // Calculate new y for container so the focused row appears in center
-    // const newContainerY = centerY - targetY;
-
-    // this.$y = newContainerY;
     },
   },
   hooks: {
@@ -129,7 +130,6 @@ export default Blits.Component("Home", {
   input: {
     down() {
       if (this.focusElement <= this.data.length) this.focusElement++;
-
     },
     up() {
       if (this.focusElement > 1) this.focusElement--;
