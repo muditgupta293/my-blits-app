@@ -23,9 +23,6 @@ export default Blits.Component('Loader', {
   hooks: {
     ready() {
       this.start()
-    },
-    focus() {
-      console.log('Loader focus')
     }
   },
   methods: {

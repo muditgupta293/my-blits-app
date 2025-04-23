@@ -15,14 +15,14 @@ export default Blits.Component("Home", {
   template: `
     <Element w="1920" h="1080" color="#1e293b">
       <Navbar x="0" mount="{x: 0.5}" y="0" ref="row1" />
-      <Element x="0" y="100" w="1920" h="600" color="#1e293b">
+      <Element x="0" y="100" w="1920" h="980" color="#1e293b">
         <CardsRow
           :for="(item, index) in $data"
-          rail="$item.title"
+          railTitle="$item.title"
           railCards="$item.items"
           index="$index"
           key="$item.title"
-          :y.transition="{value: (($index * 575) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+          :y.transition="{value: (($index * 600) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
           :ref="'row' + ($index + 2)"
         />
       </Element>
@@ -55,7 +55,7 @@ export default Blits.Component("Home", {
           title: "Top Rated Movies",
           items: [
             { name: "The Shawshank Redemption", rating: 9.2 },
-            { name: "The Godfather", rating: 9.2 },
+            { name: "gangs Of Wasseypur ", rating: 9.2 },
             { name: "The Dark Knight", rating: 9.0 },
             { name: "The Godfather: Part II", rating: 9.0 },
             { name: "12 Angry Men", rating: 8.9 },
@@ -72,7 +72,7 @@ export default Blits.Component("Home", {
         {
           title: "Upcoming Movies",
           items: [
-            { name: "The Shawshank Redemption", rating: 9.2 },
+            { name: "The return of dawood bhai", rating: 9.2 },
             { name: "The Godfather", rating: 9.2 },
             { name: "The Dark Knight", rating: 9.0 },
             { name: "The Godfather: Part II", rating: 9.0 },
