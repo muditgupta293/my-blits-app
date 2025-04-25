@@ -3,6 +3,7 @@ import Blits from "@lightningjs/blits";
 import Loader from "../components/Loader.js";
 import Navbar from "../components/Navbar.js";
 import CardsRow from "../components/CardsRow.js";
+import Background from "../components/Background.js";
 
 const colors = ["#f5f3ff", "#ede9fe", "#ddd6fe", "#c4b5fd", "#a78bfa"];
 
@@ -10,12 +11,17 @@ export default Blits.Component("Home", {
   components: {
     Loader,
     Navbar,
-    CardsRow
+    CardsRow,
+    Background
+
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">
-      <Navbar x="0" mount="{x: 0.5}" y="0" ref="row1" />
-      <Element x="0" y="100" w="1920" h="980" color="#1e293b">
+      <Background bgImg="/assets/logo.png" />
+      <Element z="1">
+        <Navbar :navbarBg="$navbarBg" x="0" mount="{x: 0.5}" y="0" ref="row1" />
+      </Element>
+      <Element x="0" y="650" w="1920" h="980">
         <CardsRow
           :for="(item, index) in $data"
           railTitle="$item.title"
@@ -32,7 +38,32 @@ export default Blits.Component("Home", {
   state() {
     return {
       focusElement: 1,
-      data: [
+      data: [{}]
+    };
+  },
+  computed: {
+    offsetY() {
+      if (this.focusElement === 1) return 0;
+      else  {
+       return (((this.focusElement - 1) * 650) - 300);
+      }
+    },
+    navbarBg() {
+      return this.focusElement > 2 ? "#1e293b" : "transparent";
+    },
+  },
+  watch: {
+    focusElement() {
+      const row = this.$select(`row${this.focusElement}`);
+      if (row && row.$focus) row.$focus();
+    },
+  },
+  hooks: {
+    ready() {
+      this.$trigger("focusElement");
+    },
+    init() {
+      this.data = [
         {
           title: "Popular Movies",
           items: [
@@ -105,27 +136,8 @@ export default Blits.Component("Home", {
             { name: "Fight Club", rating: 8.8 },
           ]
         }
-      ],
-    };
-  },
-  computed: {
-    offsetY() {
-      if (this.focusElement === 1 || this.focusElement === 2) return 0;
-      else  {
-       return (((this.focusElement - 1) * 470) - 500);
-      }
-    }
-  },
-  watch: {
-    focusElement() {
-      const row = this.$select(`row${this.focusElement}`);
-      if (row && row.$focus) row.$focus();
+      ]
     },
-  },
-  hooks: {
-    ready() {
-      this.$trigger("focusElement");
-    }
   },
   input: {
     down() {

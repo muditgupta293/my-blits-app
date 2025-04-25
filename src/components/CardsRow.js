@@ -30,9 +30,9 @@ export default Blits.Component("CardsRow", {
         if (value < 1) {
           this.rowOffset = 40
         } else if (value > this.railCards.length - 6) {
-          this.rowOffset = 60 - (this.railCards.length - 6) * 430 + 290
+          this.rowOffset = 40 - (this.railCards.length - 6) * 430 + 250
         } else {
-          this.rowOffset = 60 - value * 430 + 290
+          this.rowOffset = 40 - value * 430 + 290
         }
       }
     },
@@ -51,14 +51,14 @@ export default Blits.Component("CardsRow", {
   },
 
   template: `
-    <Element w="1920" h="550" color="#1e293b">
-      <Element w="600" h="100" x="30" color="#000">
+    <Element w="1920" h="550">
+      <Element w="600" h="100" x="30">
         <Text content="$railTitle" x="10" y="30" color="$fff" />
       </Element>
       <Element y="150" color="red" :x.transition="$rowOffset">
         <Card
           :for="(item, index) in $railCards"
-          :x.transition="{value: $itemOffset + $index * 330, delay: 50 * ($index%5), duration: 500}"
+          :x.transition="{value: $itemOffset + $index * 330, delay: 50 * ($index%4), duration: 500}"
           itemName="$item.name"
           itemRating="$item.rating"
           index="$index"

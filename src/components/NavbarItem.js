@@ -4,14 +4,13 @@ export default Blits.Component("NavbarItem", {
   props: ["text", "index", "total"],
 
   template: `
-    <Element x="$index * 250" w="250" h="100" :color="$backgroundColor">
+    <Element x="$index * 250" w="250" h="100">
       <Element alpha="$showSeparator" w="2" h="80" mount="{y: -0.1}" color="#ffffff80" x="249" />
       <Text content="$text" x="30" y="30" :color="$fontColor" />
     </Element>
   `,
   state() {
     return {
-      backgroundColor: "#333",
       fontColor: "#e8d7f9",
     }
   },
@@ -23,12 +22,10 @@ export default Blits.Component("NavbarItem", {
 
   hooks: {
     focus() {
-      this.backgroundColor = "#fafafa"
       this.fontColor = "#000"
     },
     unfocus() {
       if (!this.$router.navigating) {
-        this.backgroundColor = "#333"
         this.fontColor = "#e8d7f9"
       }
     },
@@ -36,8 +33,6 @@ export default Blits.Component("NavbarItem", {
   input : {
     enter() {
       this.$router.to(this.text.toLowerCase())
-      this.$emit('onTabSelection', this.index)
-
     }
   }
 })

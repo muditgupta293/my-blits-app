@@ -18,6 +18,11 @@ export default Blits.Component('Card', {
       this.scale = 1
     }
   },
+  input: {
+    enter() {
+      this.$router.to(`/item-detail/${this.itemRating}`)
+    }
+  },
   template: `
     <Element :scale.transition="$scale" w="300" h="400" :color="$bgColor" :effects="[{type: 'radius', props: {radius: 6}}]">
       <Text maxwidth="250" maxlines="2" content="$itemName" x="10" y="30" :color="$fff" />
