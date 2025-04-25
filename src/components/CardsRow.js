@@ -11,7 +11,7 @@ export default Blits.Component("CardsRow", {
     return {
       focusCardElement: 0,
       itemOffset: 30,
-      rowOffset: 40,
+      rowOffset: 40
     };
   },
   hooks: {
@@ -51,7 +51,7 @@ export default Blits.Component("CardsRow", {
   },
 
   template: `
-    <Element w="1920" h="550">
+    <Element w="1920" h="550" :if="$railCards && $railCards.length > 0">
       <Element w="600" h="100" x="30">
         <Text content="$railTitle" x="10" y="30" color="$fff" />
       </Element>
@@ -59,10 +59,10 @@ export default Blits.Component("CardsRow", {
         <Card
           :for="(item, index) in $railCards"
           :x.transition="{value: $itemOffset + $index * 330, delay: 50 * ($index%4), duration: 500}"
-          itemName="$item.name"
+          itemName="$item.title"
           itemRating="$item.rating"
           index="$index"
-          key="$item.name"
+          key="$item.title"
           :ref="'card' + $index"
         />
       </Element>

@@ -7,7 +7,7 @@ export default Blits.Component("Navbar", {
   },
   props: ["navbarBg"],
   template: `
-    <Element w="1920" h="100" :color="$navbarBg">
+    <Element w="1920" h="100" :color.transition="$navbarBg">
       <NavbarItem
         :for="(item, index) in $navbarItems"
         key="$item"
