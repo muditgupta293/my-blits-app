@@ -16,7 +16,9 @@ export default Blits.Component("Home", {
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">
-      <Background bgImg="/assets/logo.png" />
+      <Background :bgImg="$src" />
+      <Text :content.transition="$title" font="raleway" size="80" x="100" y="150" maxwidth="1000" maxlines="1" />
+      <Text :content.transition="$overview" maxwidth="880" x="100" y="300" lineheight="40" maxlines="3" />
       <Element z="1">
         <Navbar :navbarBg="$navbarBg" x="0" mount="{x: 0.5}" y="0" ref="row1" />
       </Element>
@@ -38,6 +40,9 @@ export default Blits.Component("Home", {
   state() {
     return {
       focusElement: 1,
+      src: "https://image.tmdb.org/t/p/w300/xUkUZ8eOnrOnnJAfusZUqKYZiDu.jpg",
+      title: "",
+      overview: "",
       data: [{
         title: "",
         items: []
@@ -47,7 +52,8 @@ export default Blits.Component("Home", {
   computed: {
     offsetY() {
       if (this.focusElement === 1) return 0;
-      else  {
+      else if (this.focusElement === 2) return 160;
+       else {
        return (((this.focusElement - 1) * 650) - 300);
       }
     },
@@ -64,6 +70,17 @@ export default Blits.Component("Home", {
   hooks: {
     ready() {
       this.$trigger("focusElement");
+      this.$listen('posterSelect', (item) => {
+        this.src = item.background
+        if (this.focusElement === 2) {
+          this.title = item.title
+          this.overview = item.overview
+        }
+        if (this.focusElement > 2) {
+          this.title = ""
+          this.overview = ""
+        }
+      })
     },
     async init() {
       this.data = [
