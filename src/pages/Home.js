@@ -12,7 +12,6 @@ export default Blits.Component("Home", {
     Navbar,
     CardsRow,
     Background
-
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">

@@ -31,11 +31,6 @@ export default Blits.Component("Navbar", {
     }
   },
   hooks: {
-    ready() {
-      this.$listen("onTabSelection", (index) => {
-        this.itemFocused = index
-      })
-    },
     focus() {
       this.$trigger("itemFocused")
     },

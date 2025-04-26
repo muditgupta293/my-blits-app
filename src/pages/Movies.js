@@ -2,11 +2,13 @@ import Blits from "@lightningjs/blits";
 import { fetchMovieGenres, fetchMovieList } from "../api/api";
 import CardsRow from "../components/CardsRow";
 import Navbar from "../components/Navbar";
+import GenreTags from "../components/GenreTags";
 
 export default Blits.Component("Movies", {
   components: {
     CardsRow,
-    Navbar
+    Navbar,
+    GenreTags
   },
   state() {
     return {
@@ -15,7 +17,7 @@ export default Blits.Component("Movies", {
         title: "",
         items: []
       }],
-      genresFilter: [""],
+      genresFilter: [],
     };
   },
   watch: {
@@ -53,10 +55,17 @@ export default Blits.Component("Movies", {
   template: `
     <Element w="1920" h="1080" color="#1e293b">
       <Element z="1">
-        <Navbar navbarBg="transparent" x="0" mount="{x: 0.5}" y="0" ref="row0" />
+        <Navbar :navbarBg="$navbarBg" x="0" mount="{x: 0.5}" y="0" ref="row0" />
       </Element>
-      <Text content="Movies" x="100" y="100" ref="row1" />
-      <Element x="0" y="200" w="1920" color="#000">
+      <GenreTags
+        :if="$genresFilter && $genresFilter.length > 0"
+        :genres="$genresFilter"
+        x="40"
+        :y.transition="{value: $offsetGenreY, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+        w="1920"
+        ref="row1"
+      />
+      <Element x="0" y="400" w="1920" color="#000">
         <CardsRow
           :if="$pageData.length > 0"
           :for="(item, index) in $pageData"
@@ -73,10 +82,16 @@ export default Blits.Component("Movies", {
   computed: {
     offsetY() {
       if (this.focusElement === 0 || this.focusElement === 1) return 0;
-      // else if (this.focusElement === 2) return 160;
        else {
-       return ((this.focusElement - 2) * 500 + 20);
+       return ((this.focusElement - 1) * 450 - 100);
       }
+    },
+    offsetGenreY() {
+      if (this.focusElement > 1) return -175;
+      else return 175
+    },
+    navbarBg() {
+      return this.focusElement > 2 ? "#1e293b" : "transparent";
     },
   },
   input: {
