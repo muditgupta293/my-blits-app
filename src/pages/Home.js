@@ -17,14 +17,23 @@ export default Blits.Component("Home", {
   template: `
     <Element w="1920" h="1080" color="#1e293b">
       <Background :bgImg="$src" />
-      <Text :content.transition="$title" font="raleway" size="80" x="100" y="150" maxwidth="1000" maxlines="1" />
-      <Text :content.transition="$overview" maxwidth="880" x="100" y="300" lineheight="40" maxlines="3" />
+      <Text
+        :if="$title.length > 0"
+        :content="$title"
+        font="raleway"
+        size="80"
+        x="100"
+        y="150"
+        maxwidth="1000"
+        maxlines="1"
+      />
+      <Text :content="$overview" maxwidth="880" x="100" y="300" lineheight="40" maxlines="3" />
       <Element z="1">
         <Navbar :navbarBg="$navbarBg" x="0" mount="{x: 0.5}" y="0" ref="row1" />
       </Element>
       <Element x="0" y="650" w="1920">
         <CardsRow
-          if="$data.length > 0"
+          :if="$data.length > 0"
           :for="(item, index) in $data"
           :railTitle="$item.title"
           :railCards="$item.items"
@@ -36,7 +45,6 @@ export default Blits.Component("Home", {
       </Element>
     </Element>
   `,
-  props: ["landingPage"],
   state() {
     return {
       focusElement: 1,
@@ -54,7 +62,7 @@ export default Blits.Component("Home", {
       if (this.focusElement === 1) return 0;
       else if (this.focusElement === 2) return 160;
        else {
-       return (((this.focusElement - 1) * 650) - 300);
+       return ((this.focusElement - 1) * 500);
       }
     },
     navbarBg() {

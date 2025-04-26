@@ -55,6 +55,7 @@ export default Blits.Component("CardsRow", {
       </Element>
       <Element y="150" color="red" :x.transition="{value: $rowOffset, duration: 800}">
         <Card
+          :if="$railCards && $railCards.length > 0"
           :for="(item, index) in $railCards"
           :x.transition="{value: $itemOffset + $index * 330, delay: 50 * ($index%5), duration: 500}"
           itemName="$item.title"
