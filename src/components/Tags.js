@@ -8,7 +8,7 @@ export default Blits.Component("Tags", {
       scale: 1,
     };
   },
-  props: ["name", "index"],
+  props: ["name", "identifier", "index"],
   hooks: {
     focus() {
       this.bgColor = "#fff"
@@ -35,4 +35,9 @@ export default Blits.Component("Tags", {
       <Text content="$name" maxwidth="150" y="20" align="center" lineheight="20" size="18" :color="$fontColor" />
     </Element>
   `,
+  input: {
+    enter() {
+      this.$router.to(`/movie-list/${this.name}/${this.identifier}`);
+    }
+  },
 });

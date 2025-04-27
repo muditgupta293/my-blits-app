@@ -42,6 +42,7 @@ export default Blits.Component("GenreTags", {
         :for="(genre, index) in $genres"
         :key="$genre.name"
         name="$genre.name"
+        identifier="$genre.id"
         index="$index"
         :ref="'genre' + $index"
       />

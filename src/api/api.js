@@ -15,6 +15,12 @@ export const fetchMovieGenres = async () => {
     .then((data) => data.genres);
 };
 
+export const fetchMovieListByGenre = async (genre) => {
+  return fetch(`${API_BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genre}`)
+    .then((res) => res.json())
+    .then(selectiveDataExtraction);
+};
+
 export function getImageUrl(path, posterSize = basePosterSize) {
   return BASE_IMG_URL + posterSize + path;
 }
