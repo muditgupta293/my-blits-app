@@ -15,7 +15,7 @@ export default Blits.Component("GenreCollection", {
   },
   hooks: {
     async init() {
-      const genreId = this.genreId ||window.location.href.split("/")[window.location.href.split("/").length - 1];
+      const genreId = this.genreId || window.location.href.split("/")[window.location.href.split("/").length - 1];
       this.collectionList = await fetchMovieListByGenre(genreId);
       this.$trigger("focusElement");
     }

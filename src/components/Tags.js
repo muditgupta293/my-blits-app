@@ -32,7 +32,7 @@ export default Blits.Component("Tags", {
       :scale.transition="{value: $scale, delay: 50, duration: 500}"
       :effects="[{type: 'radius', props: {radius: 20}}]"
     >
-      <Text content="$name" maxwidth="150" y="20" align="center" lineheight="20" size="18" :color="$fontColor" />
+      <Text content="$name" placement="{x: 'center', y: 'middle'}" size="18" :color="$fontColor" />
     </Element>
   `,
   input: {

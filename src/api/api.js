@@ -15,6 +15,18 @@ export const fetchMovieGenres = async () => {
     .then((data) => data.genres);
 };
 
+export const fetchSimilarContent = async (id) => {
+  return fetch(`${API_BASE_URL}/movie/${id}/similar?api_key=${API_KEY}`)
+    .then((res) => res.json())
+    .then((data) => data);
+};
+
+export const fetchItemDetail = async (id) => {
+  return fetch(`${API_BASE_URL}/movie/${id}?api_key=${API_KEY}`)
+    .then((res) => res.json())
+    .then((data) => data);
+};
+
 export const fetchMovieListByGenre = async (genre) => {
   return fetch(`${API_BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genre}`)
     .then((res) => res.json())

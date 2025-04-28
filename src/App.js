@@ -16,6 +16,6 @@ export default Blits.Application({
     { path: "/movies", component: Movies },
     { path: "/home", component: Home },
     { path: "/movie-list/:genre/:genreId", component: GenreCollection },
-    { path: "/item-detail/:itemName", component: ItemDetail },
+    { path: "/item-detail/:itemId", component: ItemDetail },
   ],
 })
