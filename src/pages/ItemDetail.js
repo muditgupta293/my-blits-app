@@ -8,8 +8,9 @@ export default Blits.Component("ItemDetail", {
   components: {
     Background,
     Navbar,
-    CardsRow
+    CardsRow,
   },
+  props: ["itemType", "item"],
   state() {
     return {
       focusElement: 0,
@@ -28,14 +29,15 @@ export default Blits.Component("ItemDetail", {
           },
         ],
       },
-      similarData: [{
-        title: "",
-        items: [],
-      }],
+      similarData: [
+        {
+          title: "",
+          items: [],
+        },
+      ],
       itemId: "",
       btnBgColor: "#7dcaad",
-      scaleBtn: 1,
-      itemOffset: 30
+      scaleBtn: 1
     };
   },
   computed: {
@@ -65,12 +67,20 @@ export default Blits.Component("ItemDetail", {
         window.location.href.split("/")[
           window.location.href.split("/").length - 1
         ];
-      this.itemDetail = await fetchItemDetail(this.itemId);
+      const itemType = window.location.hash
+        .replace("#", "")
+        .split("/")[1]
+        .includes("movie")
+        ? "movie"
+        : "tv" || "movie";
+      this.itemDetail = await fetchItemDetail(itemType, this.itemId);
       this.imgSrc = getImageUrl(this.itemDetail.backdrop_path, "w1280");
-      this.similarData = [{
-        title: "Similar Content for You",
-        items: await fetchSimilarContent(this.itemId),
-      }];
+      this.similarData = [
+        {
+          title: "Similar Content for You",
+          items: await fetchSimilarContent(itemType, this.itemId),
+        },
+      ];
     },
     ready() {
       this.$trigger("focusElement");
@@ -131,8 +141,8 @@ export default Blits.Component("ItemDetail", {
           y="520"
           h="80"
           x="100"
-          :color="{left: $focusElement === 1 ? '#000' : '#7dcaad', right: '#8a9199'}"
-          :scale="{value: $focusElement === 1 ? 1.1 : 1, duration: 200}"
+          :color="{left: $focusElement === 1 ? '#7dcaad' : '#000', right: '#8a9199'}"
+          :scale.transition="{value: $focusElement === 1 ? 1.1 : 1, duration: 400}"
           maxlines="1"
           maxwidth="400"
           :effects="[{type: 'radius', props: {radius: 5}}]"
@@ -141,7 +151,7 @@ export default Blits.Component("ItemDetail", {
           <Text
             content="Add to Watchlist"
             placement="{x: 'center', y: 'middle'}"
-            :color="$focusElement === 1 ? '#fff' : '#000'"
+            :color="$focusElement === 1 ? '#000' : '#fff'"
           />
         </Element>
       </Element>

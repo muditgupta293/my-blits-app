@@ -4,14 +4,14 @@ import Loader from "../components/Loader.js";
 import Navbar from "../components/Navbar.js";
 import CardsRow from "../components/CardsRow.js";
 import Background from "../components/Background.js";
-import { fetchMovieList } from "../api/api.js";
+import { fetchList } from "../api/api.js";
 
 export default Blits.Component("Home", {
   components: {
     Loader,
     Navbar,
     CardsRow,
-    Background
+    Background,
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">
@@ -50,18 +50,20 @@ export default Blits.Component("Home", {
       src: "https://image.tmdb.org/t/p/w300/xUkUZ8eOnrOnnJAfusZUqKYZiDu.jpg",
       title: "",
       overview: "",
-      data: [{
-        title: "",
-        items: []
-      }],
+      data: [
+        {
+          title: "",
+          items: [],
+        },
+      ],
     };
   },
   computed: {
     offsetY() {
       if (this.focusElement === 1) return 0;
       else if (this.focusElement === 2) return 160;
-       else {
-       return ((this.focusElement - 1) * 500);
+      else {
+        return (this.focusElement - 1) * 500;
       }
     },
     navbarBg() {
@@ -77,37 +79,37 @@ export default Blits.Component("Home", {
   hooks: {
     ready() {
       this.$trigger("focusElement");
-      this.$listen('posterSelect', (item) => {
-        this.src = item.background
+      this.$listen("posterSelect", (item) => {
+        this.src = item.background;
         if (this.focusElement === 2) {
-          this.title = item.title
-          this.overview = item.overview
+          this.title = item.title;
+          this.overview = item.overview;
         }
         if (this.focusElement > 2) {
-          this.title = ""
-          this.overview = ""
+          this.title = "";
+          this.overview = "";
         }
-      })
+      });
     },
     async init() {
       this.data = [
         {
           title: "Popular Movies",
-          items: await fetchMovieList("popular")
+          items: await fetchList("movie", "popular"),
         },
         {
           title: "Top Rated Movies",
-          items: await fetchMovieList("top_rated")
+          items: await fetchList("movie", "top_rated"),
         },
         {
-          title: "Trending Movies",
-          items: await fetchMovieList("now_playing")
+          title: "Popular Series",
+          items: await fetchList("tv", "popular"),
         },
         {
-          title: "Upcoming Movies",
-          items: await fetchMovieList("upcoming")
+          title: "Top Rated Series",
+          items: await fetchList("tv", "top_rated"),
         }
-      ]
+      ];
     },
   },
   input: {

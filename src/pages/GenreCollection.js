@@ -1,22 +1,25 @@
 import Blits from "@lightningjs/blits";
-import { fetchMovieListByGenre } from "../api/api";
+import { fetchListByGenre } from "../api/api";
 import Card from "../components/Card";
 
 export default Blits.Component("GenreCollection", {
   components: {
     Card
   },
-  props: ["genre", "genreId"],
+  props: ["type", "genre", "genreId"],
   state() {
     return {
       focusElement: 0,
       collectionList: [],
+      genreName: ""
     };
   },
   hooks: {
     async init() {
+      const contentType = this.type.includes('series') ? 'tv' : 'movie';
+      this.genreName = decodeURIComponent(this.genre);
       const genreId = this.genreId || window.location.href.split("/")[window.location.href.split("/").length - 1];
-      this.collectionList = await fetchMovieListByGenre(genreId);
+      this.collectionList = await fetchListByGenre(contentType, genreId);
       this.$trigger("focusElement");
     }
   },
@@ -34,7 +37,7 @@ export default Blits.Component("GenreCollection", {
   template: `
     <Element w="1920" h="1080" color="#1e293b">
       <Element x="50" y="50" w="100%" h="300">
-        <Text :content="'Best of ' + $genre + ' Movies'" size="45" color="#fff" />
+        <Text :content="'Best of ' + $genreName + ' Collection'" size="45" color="#fff" />
       </Element>
       <Card
         :if="$collectionList && $collectionList.length > 0"

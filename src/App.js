@@ -4,6 +4,7 @@ import Home from "./pages/Home.js"
 import ItemDetail from "./pages/ItemDetail.js"
 import Movies from "./pages/Movies.js"
 import GenreCollection from "./pages/GenreCollection.js"
+import Series from "./pages/Series.js"
 
 export default Blits.Application({
   template: `
@@ -14,8 +15,9 @@ export default Blits.Application({
   routes: [
     { path: "/", component: Home },
     { path: "/movies", component: Movies },
+    { path: "/series", component: Series },
     { path: "/home", component: Home },
-    { path: "/movie-list/:genre/:genreId", component: GenreCollection },
-    { path: "/item-detail/:itemId", component: ItemDetail },
+    { path: "/:type/:genre/:genreId", component: GenreCollection },
+    { path: "/:itemType/:item", component: ItemDetail },
   ],
 })

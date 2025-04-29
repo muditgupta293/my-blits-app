@@ -4,7 +4,7 @@ import CardsRow from "../components/CardsRow";
 import Navbar from "../components/Navbar";
 import GenreTags from "../components/GenreTags";
 
-export default Blits.Component("Movies", {
+export default Blits.Component("Series", {
   components: {
     CardsRow,
     Navbar,
@@ -33,23 +33,23 @@ export default Blits.Component("Movies", {
     async init() {
       this.pageData = [
         {
-          title: "Popular Movies",
-          items: await fetchList("movie", "popular")
+          title: "Popular Series",
+          items: await fetchList("tv", "popular")
         },
         {
-          title: "Top Rated Movies",
-          items: await fetchList("movie", "top_rated")
+          title: "Top Rated Series",
+          items: await fetchList("tv", "top_rated")
         },
         {
-          title: "Trending Movies",
-          items: await fetchList("movie", "now_playing")
+          title: "Airing Today Series",
+          items: await fetchList("tv", "airing_today")
         },
         {
-          title: "Upcoming Movies",
-          items: await fetchList("movie", "upcoming")
+          title: "On The Air Series",
+          items: await fetchList("tv", "on_the_air")
         }
       ],
-      this.genresFilter = await fetchGenres("movie")
+      this.genresFilter = await fetchGenres("tv")
     }
   },
   template: `

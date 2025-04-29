@@ -37,7 +37,9 @@ export default Blits.Component("Tags", {
   `,
   input: {
     enter() {
-      this.$router.to(`/movie-list/${this.name}/${this.identifier}`);
+      const landingPage = window.location.hash.replace("#", "")
+      const routeTo = `${landingPage}-list`
+      this.$router.to(`/${routeTo}/${encodeURIComponent(this.name)}/${this.identifier}`);
     }
   },
 });

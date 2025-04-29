@@ -31,8 +31,11 @@ export default Blits.Component("Card", {
   },
   input: {
     enter() {
-      this.$router.to(`/item-detail/${this.identifier}`);
-    }
+      const contentType =
+        (window.location.hash.includes("series") ? "series" : "movie") || "movie";
+      const routeTo = `${contentType}-item-detail`;
+      this.$router.to(`/${routeTo}/${this.identifier}`);
+    },
   },
   template: `
     <Element
