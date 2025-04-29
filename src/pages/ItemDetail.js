@@ -2,11 +2,13 @@ import Blits from "@lightningjs/blits";
 import { fetchItemDetail, fetchSimilarContent, getImageUrl } from "../api/api";
 import Background from "../components/Background";
 import Navbar from "../components/Navbar";
+import CardsRow from "../components/CardsRow";
 
 export default Blits.Component("ItemDetail", {
   components: {
     Background,
-    Navbar
+    Navbar,
+    CardsRow
   },
   state() {
     return {
@@ -26,10 +28,14 @@ export default Blits.Component("ItemDetail", {
           },
         ],
       },
-      similarItems: [],
+      similarData: [{
+        title: "",
+        items: [],
+      }],
       itemId: "",
       btnBgColor: "#7dcaad",
       scaleBtn: 1,
+      itemOffset: 30
     };
   },
   computed: {
@@ -49,7 +55,7 @@ export default Blits.Component("ItemDetail", {
   },
   watch: {
     focusElement() {
-      const item = this.$select(`row${this.focusElement}`);
+      const item = this.$select(`item${this.focusElement}`);
       if (item && item.$focus) item.$focus();
     },
   },
@@ -59,9 +65,12 @@ export default Blits.Component("ItemDetail", {
         window.location.href.split("/")[
           window.location.href.split("/").length - 1
         ];
-      this.similarItems = await fetchSimilarContent(this.itemId);
       this.itemDetail = await fetchItemDetail(this.itemId);
       this.imgSrc = getImageUrl(this.itemDetail.backdrop_path, "w1280");
+      this.similarData = [{
+        title: "Similar Content for You",
+        items: await fetchSimilarContent(this.itemId),
+      }];
     },
     ready() {
       this.$trigger("focusElement");
@@ -116,7 +125,7 @@ export default Blits.Component("ItemDetail", {
           x="100"
           y="350"
           lineheight="45"
-          maxlines="4"
+          maxlines="3"
         />
         <Element
           y="520"
@@ -127,7 +136,7 @@ export default Blits.Component("ItemDetail", {
           maxlines="1"
           maxwidth="400"
           :effects="[{type: 'radius', props: {radius: 5}}]"
-          ref="row1"
+          ref="item1"
         >
           <Text
             content="Add to Watchlist"
@@ -136,14 +145,22 @@ export default Blits.Component("ItemDetail", {
           />
         </Element>
       </Element>
-      <Text
-        content="Similar Content for You"
-        font="raleway"
-        color="#eee"
-        size="40"
-        x="100"
+      <Element
+        x="0"
         :y.transition="{value: 700-$offsetY, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
-      />
+        w="1920"
+        color="#000"
+      >
+        <CardsRow
+          :if="$similarData.length > 0"
+          :for="(item, index) in $similarData"
+          :railTitle="$item.title"
+          :railCards="$item.items"
+          index="$index"
+          key="$item.title"
+          :ref="'item' + ($index + 2)"
+        />
+      </Element>
     </Element>
   `,
   input: {
@@ -154,7 +171,12 @@ export default Blits.Component("ItemDetail", {
     },
     up() {
       if (this.focusElement > 0) {
+
         this.focusElement--;
+        if (this.focusElement === 1) {
+          const row1 = this.$select("item1");
+          if (row1 && row1.$focus) row1.$focus();
+        }
       }
     },
     enter() {

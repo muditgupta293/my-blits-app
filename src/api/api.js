@@ -18,7 +18,7 @@ export const fetchMovieGenres = async () => {
 export const fetchSimilarContent = async (id) => {
   return fetch(`${API_BASE_URL}/movie/${id}/similar?api_key=${API_KEY}`)
     .then((res) => res.json())
-    .then((data) => data);
+    .then((data) => data).then(selectiveDataExtraction);
 };
 
 export const fetchItemDetail = async (id) => {

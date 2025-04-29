@@ -27,12 +27,12 @@ export default Blits.Component("Card", {
     },
     unfocus() {
       this.scale = 1;
-    },
+    }
   },
   input: {
     enter() {
       this.$router.to(`/item-detail/${this.identifier}`);
-    },
+    }
   },
   template: `
     <Element
@@ -48,7 +48,7 @@ export default Blits.Component("Card", {
         maxwidth="250"
         size="22"
         maxlines="1"
-        :content="'Rating: ' + $itemRating.toFixed(1)"
+        :content="$itemRating !== undefined && $itemRating !== null ? ('Rating: ' + $itemRating.toFixed(1)) : 'Rating: N/A'"
         x="10"
         y="350"
         color="#fff"
