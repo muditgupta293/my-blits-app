@@ -171,17 +171,13 @@ export default Blits.Component("ItemDetail", {
     },
     up() {
       if (this.focusElement > 0) {
-
         this.focusElement--;
-        if (this.focusElement === 1) {
-          const row1 = this.$select("item1");
-          if (row1 && row1.$focus) row1.$focus();
-        }
       }
     },
     enter() {
-      if (this.focusElement === 0) {
+      if (this.focusElement === 1) {
         console.log("add to watchlist");
+        window.alert("added to watchlist");
       }
     }
   },
