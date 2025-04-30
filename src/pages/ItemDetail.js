@@ -3,6 +3,7 @@ import { fetchItemDetail, fetchSimilarContent, getImageUrl } from "../api/api";
 import Background from "../components/Background";
 import Navbar from "../components/Navbar";
 import CardsRow from "../components/CardsRow";
+import { isInWatchlist, toggleWatchlist } from "../utils/favouritesUtil";
 
 export default Blits.Component("ItemDetail", {
   components: {
@@ -37,7 +38,8 @@ export default Blits.Component("ItemDetail", {
       ],
       itemId: "",
       btnBgColor: "#7dcaad",
-      scaleBtn: 1
+      scaleBtn: 1,
+      favouriteStatus: false
     };
   },
   computed: {
@@ -54,12 +56,16 @@ export default Blits.Component("ItemDetail", {
       if (this.focusElement <= 1) return 0;
       else return 300;
     },
+    getBtnName() {
+      this.favouriteStatus;
+      return isInWatchlist(this.itemId) ? "Remove from Watchlist" : "Add to Watchlist";
+    }
   },
   watch: {
     focusElement() {
       const item = this.$select(`item${this.focusElement}`);
       if (item && item.$focus) item.$focus();
-    },
+    }
   },
   hooks: {
     async init() {
@@ -149,7 +155,7 @@ export default Blits.Component("ItemDetail", {
           ref="item1"
         >
           <Text
-            content="Add to Watchlist"
+            :content="$getBtnName"
             placement="{x: 'center', y: 'middle'}"
             :color="$focusElement === 1 ? '#000' : '#fff'"
           />
@@ -186,8 +192,7 @@ export default Blits.Component("ItemDetail", {
     },
     enter() {
       if (this.focusElement === 1) {
-        console.log("add to watchlist");
-        window.alert("added to watchlist");
+        this.favouriteStatus = toggleWatchlist(this.itemDetail) === "added";
       }
     }
   },

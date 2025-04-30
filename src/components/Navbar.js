@@ -20,7 +20,7 @@ export default Blits.Component("Navbar", {
   `,
   state() {
     return {
-      navbarItems: ["Home", "Movies", "Series"],
+      navbarItems: ["Home", "Movies", "Series", "Favourites"],
       itemFocused: 0,
     }
   },
