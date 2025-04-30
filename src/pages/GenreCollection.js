@@ -21,6 +21,9 @@ export default Blits.Component("GenreCollection", {
       const genreId = this.genreId || window.location.href.split("/")[window.location.href.split("/").length - 1];
       this.collectionList = await fetchListByGenre(contentType, genreId);
       this.$trigger("focusElement");
+    },
+    focus() {
+      this.$trigger("focusElement");
     }
   },
   watch: {
@@ -30,13 +33,21 @@ export default Blits.Component("GenreCollection", {
     }
   },
   computed: {
-    offsetY() {
+    offsetCardY() {
       return (Math.floor(this.focusElement / 5) * 400)
+    },
+    offsetYWrapper() {
+      return this.focusElement <= 4 ? 0 : -(Math.floor(this.focusElement / 5) * 400)
     }
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">
-      <Element x="50" y="50" w="100%" h="300">
+      <Element
+        x="50"
+        :y.transition="{value: $offsetYWrapper + 50, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+        w="100%"
+        h="300"
+      >
         <Text :content="'Best of ' + $genreName + ' Collection'" size="45" color="#fff" />
       </Element>
       <Card
@@ -44,7 +55,7 @@ export default Blits.Component("GenreCollection", {
         :for="(item, index) in $collectionList"
         maxwidth="1000"
         maxlines="$collectionList.length/5"
-        :y.transition="{ value: ((Math.floor($index / 5) * 500) - $offsetY) + 200, delay: 50, duration: 500 }"
+        :y.transition="{ value: ((Math.floor($index / 5) * 500) - $offsetCardY) + 200, delay: 50, duration: 500 }"
         :x.transition="{value: 50 + ($index%5) * 370, delay: 50 , duration: 500}"
         itemName="$item.title"
         itemRating="$item.rating"
@@ -77,6 +88,8 @@ export default Blits.Component("GenreCollection", {
     up() {
       if (this.focusElement - 5 >= 0) {
         this.focusElement = this.focusElement-5;
+      } else {
+        this.$emit("focusNavbar");
       }
     }
   }

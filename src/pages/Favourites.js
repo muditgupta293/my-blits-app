@@ -41,11 +41,19 @@ export default Blits.Component("GenreCollection", {
   computed: {
     offsetY() {
       return (Math.floor(this.focusElement / 5) * 400)
+    },
+    offsetYWrapper() {
+      return this.focusElement <= 4 ? 0 : -(Math.floor(this.focusElement / 5) * 400)
     }
   },
   template: `
     <Element w="1920" h="1080" color="#1e293b">
-      <Element x="50" y="50" w="100%" h="300">
+      <Element
+        x="50"
+        :y.transition="{value: $offsetYWrapper + 50, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+        w="100%"
+        h="300"
+      >
         <Text content="Your Watchlist" size="45" color="#fff" />
       </Element>
       <Card
