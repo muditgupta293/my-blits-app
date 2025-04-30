@@ -27,7 +27,9 @@ export default Blits.Component("GenreCollection", {
       setTimeout(() => {
         this.$trigger("focusElement");
       }, 0);
-
+    },
+    focus() {
+      this.$trigger("focusElement");
     }
   },
   watch: {
@@ -84,6 +86,8 @@ export default Blits.Component("GenreCollection", {
     up() {
       if (this.focusElement - 5 >= 0) {
         this.focusElement = this.focusElement-5;
+      } else {
+        this.$emit("focusNavbar");
       }
     }
   }
