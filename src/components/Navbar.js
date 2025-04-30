@@ -8,6 +8,7 @@ export default Blits.Component("Navbar", {
   // props: ["navbarBg"],
   template: `
     <Element w="1920" h="100" color="#333">
+      <Text content="LightningJS" x="2%" y="25" font="raleway" size="40" color="red" />
       <NavbarItem
         :for="(item, index) in $navbarItems"
         key="$item"

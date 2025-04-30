@@ -4,7 +4,7 @@ export default Blits.Component("NavbarItem", {
   props: ["text", "index", "total"],
 
   template: `
-    <Element x="$index * 250" w="250" h="100">
+    <Element :x="300 + ($index * 250)" w="250" h="100">
       <Element alpha="$showSeparator" w="2" h="80" mount="{y: -0.1}" color="#ffffff80" x="249" />
       <Text content="$text" x="30" y="30" :color="$fontColor" />
     </Element>
