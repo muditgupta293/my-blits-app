@@ -35,7 +35,7 @@ export default Blits.Component("Home", {
           :railCards="$item.items"
           index="$index"
           key="$item.title"
-          :y.transition="{value: ((100 + ($index * 600)) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+          :y.transition="{value: 30 + ($index * 600 - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
           :ref="'row' + $index"
         />
       </Element>
