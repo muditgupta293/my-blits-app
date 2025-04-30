@@ -19,6 +19,7 @@ export default Blits.Component("ItemDetail", {
       itemDetail: {
         title: "",
         release_date: "",
+        first_air_date: "",
         overview: "",
         status: "",
         backdrop_path: "",
@@ -39,18 +40,29 @@ export default Blits.Component("ItemDetail", {
       itemId: "",
       btnBgColor: "#7dcaad",
       scaleBtn: 1,
-      favouriteStatus: false
+      favouriteStatus: false,
     };
   },
   computed: {
     getReleaseDate() {
-      if (this.itemDetail.status === "Released") {
-        return new Date(this.itemDetail.release_date).toLocaleString("en-US", {
-          month: "long",
-          year: "numeric",
-        });
+      if (
+        this.itemDetail.status === "In Production" ||
+        this.itemDetail.status === "Upcoming"
+      ) {
+        return "Coming Soon...";
+      } else
+      {
+        try {
+          return new Date(
+            this.itemDetail.release_date || this.itemDetail.first_air_date,
+          ).toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+          });
+        } catch {
+          return "";
+        }
       }
-      return "Coming Soon...";
     },
     offsetY() {
       if (this.focusElement <= 1) return 0;
@@ -58,8 +70,10 @@ export default Blits.Component("ItemDetail", {
     },
     getBtnName() {
       this.favouriteStatus;
-      return isInWatchlist(this.itemId) ? "Remove from Watchlist" : "Add to Watchlist";
-    }
+      return isInWatchlist(this.itemId)
+        ? "Remove from Watchlist"
+        : "Add to Watchlist";
+    },
   },
   watch: {
     focusElement() {
@@ -92,12 +106,7 @@ export default Blits.Component("ItemDetail", {
       this.$trigger("focusElement");
     },
     focus() {
-      this.scaleBtn = 1.1;
-      this.btnBgColor = "#000";
-    },
-    unfocus() {
-      this.scaleBtn = 1;
-      this.btnBgColor = "#7dcaad";
+      this.focusElement = 1;
     },
   },
   template: `
@@ -109,7 +118,7 @@ export default Blits.Component("ItemDetail", {
         :y.transition="{value: 0-$offsetY, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
       >
         <Text
-          :content="$itemDetail.title"
+          :content="{value: $itemDetail.title || $itemDetail.name}"
           font="raleway"
           color="#eee"
           size="80"
@@ -118,7 +127,9 @@ export default Blits.Component("ItemDetail", {
           maxwidth="1000"
           maxlines="1"
         />
-        <Text :content="$getReleaseDate" size="25" color="#eee" x="100" y="200" />
+        <Element :if="$itemDetail && $itemDetail.release_date && $itemDetail.release_date.length > 0">
+          <Text :content="$getReleaseDate" size="25" color="#eee" x="100" y="200" />
+        </Element>
         <Element
           :for="(genre, index) in $itemDetail.genres"
           :x="($index * 120) + 300"
@@ -186,8 +197,11 @@ export default Blits.Component("ItemDetail", {
       }
     },
     up() {
-      if (this.focusElement > 0) {
+      if (this.focusElement > 1) {
         this.focusElement--;
+      } else {
+        this.focusElement--;
+        this.$emit("focusNavbar");
       }
     },
     enter() {

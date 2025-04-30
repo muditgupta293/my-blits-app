@@ -32,6 +32,7 @@ export default Blits.Component("NavbarItem", {
   },
   input : {
     enter() {
+      window.localStorage.setItem("NavbarSelection", this.index)
       this.$router.to(this.text.toLowerCase())
     }
   }

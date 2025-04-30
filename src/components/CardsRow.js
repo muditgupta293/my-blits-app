@@ -47,7 +47,8 @@ export default Blits.Component("CardsRow", {
       }
     },
     up(e) {
-      this.parent.focus(e);
+      if (window.location.hash.includes("item-detail")) this.parent.focus()
+      else this.parent.focus(e)
     }
   },
 

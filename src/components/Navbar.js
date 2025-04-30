@@ -5,9 +5,9 @@ export default Blits.Component("Navbar", {
   components: {
     NavbarItem,
   },
-  props: ["navbarBg"],
+  // props: ["navbarBg"],
   template: `
-    <Element w="1920" h="100" :color.transition="$navbarBg">
+    <Element w="1920" h="100" color="#333">
       <NavbarItem
         :for="(item, index) in $navbarItems"
         key="$item"
@@ -32,6 +32,7 @@ export default Blits.Component("Navbar", {
   },
   hooks: {
     focus() {
+      this.itemFocused = Number(window.localStorage.getItem("NavbarSelection")) || 0
       this.$trigger("itemFocused")
     },
   },
@@ -50,6 +51,9 @@ export default Blits.Component("Navbar", {
       } else {
         this.itemFocused = 0
       }
+    },
+    down() {
+      this.$emit("focusRouter")
     },
   },
 })

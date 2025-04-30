@@ -22,15 +22,12 @@ export default Blits.Component("Home", {
         font="raleway"
         size="80"
         x="100"
-        y="150"
+        y="50"
         maxwidth="1000"
         maxlines="1"
       />
-      <Text :content="$overview" maxwidth="880" x="100" y="300" lineheight="40" maxlines="3" />
-      <Element z="1">
-        <Navbar :navbarBg="$navbarBg" x="0" mount="{x: 0.5}" y="0" ref="row1" />
-      </Element>
-      <Element x="0" y="650" w="1920">
+      <Text :content="$overview" maxwidth="880" x="100" y="200" lineheight="40" maxlines="3" />
+      <Element x="0" y="550" w="1920">
         <CardsRow
           :if="$data.length > 0"
           :for="(item, index) in $data"
@@ -38,15 +35,15 @@ export default Blits.Component("Home", {
           :railCards="$item.items"
           index="$index"
           key="$item.title"
-          :y.transition="{value: (($index * 600) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
-          :ref="'row' + ($index + 2)"
+          :y.transition="{value: ((100 + ($index * 600)) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+          :ref="'row' + $index"
         />
       </Element>
     </Element>
   `,
   state() {
     return {
-      focusElement: 1,
+      focusElement: 0,
       src: "https://image.tmdb.org/t/p/w300/xUkUZ8eOnrOnnJAfusZUqKYZiDu.jpg",
       title: "",
       overview: "",
@@ -60,10 +57,9 @@ export default Blits.Component("Home", {
   },
   computed: {
     offsetY() {
-      if (this.focusElement === 1) return 0;
-      else if (this.focusElement === 2) return 160;
+      if (this.focusElement === 0) return 200;
       else {
-        return (this.focusElement - 1) * 500;
+        return this.focusElement * 700;
       }
     },
     navbarBg() {
@@ -78,18 +74,20 @@ export default Blits.Component("Home", {
   },
   hooks: {
     ready() {
-      this.$trigger("focusElement");
       this.$listen("posterSelect", (item) => {
         this.src = item.background;
-        if (this.focusElement === 2) {
+        if (this.focusElement === 0) {
           this.title = item.title;
           this.overview = item.overview;
         }
-        if (this.focusElement > 2) {
+        if (this.focusElement > 0) {
           this.title = "";
           this.overview = "";
         }
       });
+    },
+    focus() {
+      this.$trigger("focusElement");
     },
     async init() {
       this.data = [
@@ -110,14 +108,19 @@ export default Blits.Component("Home", {
           items: await fetchList("tv", "top_rated"),
         }
       ];
+      this.$trigger("focusElement");
     },
   },
   input: {
     down() {
-      if (this.focusElement <= this.data.length) this.focusElement++;
+      if (this.focusElement < this.data.length-1) this.focusElement++;
     },
     up() {
-      if (this.focusElement > 1) this.focusElement--;
+      if (this.focusElement > 0) {
+        this.focusElement--;
+      } else {
+        this.$emit("focusNavbar");
+      }
     },
   },
 });
