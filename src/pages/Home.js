@@ -22,12 +22,12 @@ export default Blits.Component("Home", {
         font="raleway"
         size="80"
         x="100"
-        y="50"
+        y="120"
         maxwidth="1000"
         maxlines="1"
       />
-      <Text :content="$overview" maxwidth="880" x="100" y="200" lineheight="40" maxlines="3" />
-      <Element x="0" y="550" w="1920">
+      <Text :content="$overview" maxwidth="880" x="100" y="230" lineheight="40" maxlines="3" />
+      <Element x="0" y="600" w="1920">
         <CardsRow
           :if="$data.length > 0"
           :for="(item, index) in $data"
@@ -61,15 +61,17 @@ export default Blits.Component("Home", {
       else {
         return this.focusElement * 700;
       }
-    },
-    navbarBg() {
-      return this.focusElement > 2 ? "#1e293b" : "transparent";
-    },
+    }
   },
   watch: {
-    focusElement() {
+    focusElement(value) {
       const row = this.$select(`row${this.focusElement}`);
       if (row && row.$focus) row.$focus();
+      if (value == 0) {
+        this.$emit("changeNavbarColor", "transparent");
+      } else {
+        this.$emit("changeNavbarColor", "#333");
+      }
     },
   },
   hooks: {

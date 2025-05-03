@@ -5,9 +5,8 @@ export default Blits.Component("Navbar", {
   components: {
     NavbarItem,
   },
-  // props: ["navbarBg"],
   template: `
-    <Element w="1920" h="100" color="#333">
+    <Element w="1920" h="100" :color.transition="$navbarColor">
       <Text content="LightningJS" x="2%" y="25" font="raleway" size="40" color="red" />
       <NavbarItem
         :for="(item, index) in $navbarItems"
@@ -23,6 +22,7 @@ export default Blits.Component("Navbar", {
     return {
       navbarItems: ["Home", "Movies", "Series", "Favourites"],
       itemFocused: 0,
+      navbarColor: "transparent"
     }
   },
   watch: {
@@ -36,6 +36,11 @@ export default Blits.Component("Navbar", {
       this.itemFocused = Number(window.localStorage.getItem("NavbarSelection")) || 0
       this.$trigger("itemFocused")
     },
+    ready() {
+      this.$listen("changeNavbarColor", (bgColor) => {
+        this.navbarColor = bgColor
+      })
+    }
   },
   input: {
     left() {

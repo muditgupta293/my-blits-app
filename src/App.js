@@ -37,7 +37,7 @@ export default Blits.Application({
       <Element z="1">
         <Navbar ref="navbar" />
       </Element>
-      <Element y="100">
+      <Element>
         <RouterView ref="router-view" />
       </Element>
     </Element>

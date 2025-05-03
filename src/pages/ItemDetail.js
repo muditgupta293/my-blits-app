@@ -76,9 +76,14 @@ export default Blits.Component("ItemDetail", {
     },
   },
   watch: {
-    focusElement() {
+    focusElement(value) {
       const item = this.$select(`item${this.focusElement}`);
       if (item && item.$focus) item.$focus();
+      if (value == 1 || value == 0) {
+        this.$emit("changeNavbarColor", "transparent");
+      } else {
+        this.$emit("changeNavbarColor", "#333");
+      }
     }
   },
   hooks: {
@@ -123,27 +128,27 @@ export default Blits.Component("ItemDetail", {
           color="#eee"
           size="80"
           x="100"
-          y="60"
+          y="120"
           maxwidth="1000"
           maxlines="1"
         />
         <Element :if="$itemDetail && $itemDetail.release_date && $itemDetail.release_date.length > 0">
-          <Text :content="$getReleaseDate" size="25" color="#eee" x="100" y="200" />
+          <Text :content="$getReleaseDate" size="25" color="#eee" x="100" y="230" />
         </Element>
         <Element
           :for="(genre, index) in $itemDetail.genres"
-          :x="($index * 120) + 300"
-          y="200"
+          :x="($index * 150) + 300"
+          y="230"
           h="22"
           color="{left: '#fff', right: '#8a9199'}"
           maxlines="1"
-          maxwidth="100"
+          maxwidth="120"
           :key="$genre.id"
           :effects="[{type: 'radius', props: {radius: 5}}]"
         >
-          <Text :content="$genre.name" align="center" y="3" x="8" lineheight="20" size="18" color="#000" />
+          <Text :content="$genre.name" y="3" x="8" maxlines="1" maxwidth="120" lineheight="20" size="18" color="#000" />
         </Element>
-        <Text :content="'Rating: ' + $itemDetail.vote_average.toFixed(1) + '/10'" size="22" color="#eee" x="100" y="240" />
+        <Text :content="'Rating: ' + $itemDetail.vote_average.toFixed(1) + '/10'" size="22" color="#eee" x="100" y="270" />
         <Text
           :content="$itemDetail.overview"
           size="32"

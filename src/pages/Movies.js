@@ -21,9 +21,14 @@ export default Blits.Component("Movies", {
     };
   },
   watch: {
-    focusElement() {
+    focusElement(value) {
       const row = this.$select(`row${this.focusElement}`);
       if (row && row.$focus) row.$focus();
+      if (value <= 1 ) {
+        this.$emit("changeNavbarColor", "transparent");
+      } else {
+        this.$emit("changeNavbarColor", "#333");
+      }
     },
   },
   hooks: {
@@ -60,7 +65,7 @@ export default Blits.Component("Movies", {
         :if="$genresFilter && $genresFilter.length > 0"
         :genres="$genresFilter"
         x="40"
-        :y.transition="{value: $offsetGenreY, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+        :y.transition="{value: $offsetGenreY + 70, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
         w="1920"
         ref="row0"
       />
@@ -72,7 +77,7 @@ export default Blits.Component("Movies", {
           :railCards="$item.items"
           index="$index"
           key="$item.title"
-          :y.transition="{value: (($index * 600) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+          :y.transition="{value: ((($index * 600) + 50) - $offsetY), delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
           :ref="'row' + ($index + 1)"
         />
       </Element>
@@ -88,10 +93,7 @@ export default Blits.Component("Movies", {
     offsetGenreY() {
       if (this.focusElement > 1) return -175;
       else return 75
-    },
-    navbarBg() {
-      return this.focusElement > 2 ? "#1e293b" : "transparent";
-    },
+    }
   },
   input: {
     down() {

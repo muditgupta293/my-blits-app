@@ -27,9 +27,14 @@ export default Blits.Component("GenreCollection", {
     }
   },
   watch: {
-    focusElement() {
+    focusElement(value) {
       const card = this.$select(`card${this.focusElement}`);
       if (card && card.$focus) card.$focus();
+      if (value <= 4) {
+        this.$emit("changeNavbarColor", "transparent");
+      } else {
+        this.$emit("changeNavbarColor", "#333");
+      }
     }
   },
   computed: {
@@ -44,7 +49,7 @@ export default Blits.Component("GenreCollection", {
     <Element w="1920" h="1080" color="#1e293b">
       <Element
         x="50"
-        :y.transition="{value: $offsetYWrapper + 50, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
+        :y.transition="{value: $offsetYWrapper + 120, delay: 200, easing: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}"
         w="100%"
         h="300"
       >
@@ -55,7 +60,7 @@ export default Blits.Component("GenreCollection", {
         :for="(item, index) in $collectionList"
         maxwidth="1000"
         maxlines="$collectionList.length/5"
-        :y.transition="{ value: ((Math.floor($index / 5) * 500) - $offsetCardY) + 200, delay: 50, duration: 500 }"
+        :y.transition="{ value: ((Math.floor($index / 5) * 500) - $offsetCardY) + 250, delay: 50, duration: 500 }"
         :x.transition="{value: 50 + ($index%5) * 370, delay: 50 , duration: 500}"
         itemName="$item.title"
         itemRating="$item.rating"
