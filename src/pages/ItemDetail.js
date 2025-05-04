@@ -40,7 +40,7 @@ export default Blits.Component("ItemDetail", {
       itemId: "",
       btnBgColor: "#7dcaad",
       scaleBtn: 1,
-      favouriteStatus: false,
+      favouriteStatus: null,
     };
   },
   computed: {
