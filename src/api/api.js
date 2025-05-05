@@ -34,7 +34,7 @@ export const fetchListByGenre = async (type, genre) => {
 };
 
 export const fetchSearch = async (query) => {
-  return fetch(`${API_BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`)
+  return fetch(`${API_BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&include_adult=false`)
     .then((res) => res.json())
     .then(selectiveDataExtraction);
 };
