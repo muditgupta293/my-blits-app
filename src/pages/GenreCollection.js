@@ -69,7 +69,7 @@ export default Blits.Component("GenreCollection", {
         identifier="$item.identifier"
         overview="$item.overview"
         index="$index"
-        key="$item.title"
+        key="$item.identifier"
         :ref="'card' + $index"
       />
     </Element>

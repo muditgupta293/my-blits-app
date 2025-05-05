@@ -65,7 +65,7 @@ export default Blits.Component("SearchCollection", {
         identifier="$item.identifier"
         overview="$item.overview"
         index="$index"
-        key="$item.title"
+        key="$item.identifier"
         :ref="'card' + $index"
       />
     </Element>`,
