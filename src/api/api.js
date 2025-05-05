@@ -33,6 +33,12 @@ export const fetchListByGenre = async (type, genre) => {
     .then(selectiveDataExtraction);
 };
 
+export const fetchSearch = async (query) => {
+  return fetch(`${API_BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`)
+    .then((res) => res.json())
+    .then(selectiveDataExtraction);
+};
+
 export function getImageUrl(path, posterSize = basePosterSize) {
   return BASE_IMG_URL + posterSize + path;
 }

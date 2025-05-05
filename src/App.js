@@ -7,6 +7,7 @@ import GenreCollection from "./pages/GenreCollection.js";
 import Series from "./pages/Series.js";
 import Favourites from "./pages/Favourites.js";
 import Navbar from "./components/Navbar.js";
+import SearchCollection from "./pages/SearchCollection.js";
 
 export default Blits.Application({
   components: {
@@ -47,6 +48,7 @@ export default Blits.Application({
     { path: "/movies", component: Movies },
     { path: "/series", component: Series },
     { path: "/home", component: Home },
+    { path: "/search-results/:query", component: SearchCollection },
     { path: "/:type/:genre/:genreId", component: GenreCollection },
     { path: "/:itemType/:item", component: ItemDetail },
     { path: "/favourites", component: Favourites },

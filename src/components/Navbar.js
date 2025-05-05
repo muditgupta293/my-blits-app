@@ -1,9 +1,11 @@
 import Blits from "@lightningjs/blits"
 import NavbarItem from "./NavbarItem"
+import SearchInput from "./SearchInput"
 
 export default Blits.Component("Navbar", {
   components: {
     NavbarItem,
+    SearchInput
   },
   template: `
     <Element w="1920" h="100" :color.transition="$navbarColor">
@@ -16,24 +18,37 @@ export default Blits.Component("Navbar", {
         total="$navbarItems.length"
         :ref="'item' + $index"
       />
+      <SearchInput x="80%" ref="searchInput" />
     </Element>
   `,
   state() {
     return {
       navbarItems: ["Home", "Movies", "Series", "Favourites"],
       itemFocused: 0,
-      navbarColor: "transparent"
+      navbarColor: "transparent",
+      onSearch: false,
     }
   },
   watch: {
     itemFocused() {
-      const item = this.$select(`item${this.itemFocused}`)
-      if (item && item.$focus) item.$focus()
+      if (!this.onSearch) {
+        const item = this.$select(`item${this.itemFocused}`)
+        if (item && item.$focus) item.$focus()
+      }
+    },
+    onSearch(val) {
+      const ref = this.$select("searchInput")
+      if (ref && ref.$focus && val) {
+        ref.$focus()
+      } else if (!val) {
+        this.$trigger("itemFocused")
+      }
     }
   },
   hooks: {
     focus() {
       this.itemFocused = Number(window.localStorage.getItem("NavbarSelection")) || 0
+      this.onSearch = false
       this.$trigger("itemFocused")
     },
     ready() {
@@ -44,7 +59,9 @@ export default Blits.Component("Navbar", {
   },
   input: {
     left() {
-      if (this.itemFocused > 0) {
+      if (this.onSearch) {
+        this.onSearch = false
+      } else if (this.itemFocused > 0) {
         this.itemFocused--
       } else {
         this.itemFocused = this.navbarItems.length - 1
@@ -55,7 +72,7 @@ export default Blits.Component("Navbar", {
       if (this.itemFocused < this.navbarItems.length - 1) {
         this.itemFocused++
       } else {
-        this.itemFocused = 0
+        this.onSearch = true
       }
     },
     down() {
